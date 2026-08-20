@@ -38,5 +38,19 @@ class TestCLIList(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
 
 
+    def test_list_filters_by_priority(self):
+        result = self.run_cli("list", "--priority", "high")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("INC-104", result.stdout)
+        self.assertIn("INC-109", result.stdout)
+        self.assertNotIn("INC-101", result.stdout)
+        self.assertNotIn("INC-102", result.stdout)
+
+    def test_invalid_priority_exits_nonzero(self):
+        result = self.run_cli("list", "--priority", "urgent")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("invalid choice", result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()
