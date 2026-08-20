@@ -1,0 +1,37 @@
+"""Command-line interface for HelpDesk Lite."""
+
+import argparse
+
+from helpdesk.service import load_tickets
+
+
+def format_ticket(ticket):
+    """Render a single ticket as one line of CLI output."""
+    return f"{ticket.id}  {ticket.priority.upper()}  {ticket.summary}"
+
+
+def cmd_list(args):
+    """Print every ticket."""
+    for ticket in load_tickets():
+        print(format_ticket(ticket))
+    return 0
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(prog="helpdesk", description="Support ticket CLI.")
+    subcommands = parser.add_subparsers(dest="command", required=True)
+
+    list_parser = subcommands.add_parser("list", help="List support tickets")
+    list_parser.set_defaults(handler=cmd_list)
+
+    return parser
+
+
+def main(argv=None):
+    """Entry point for the helpdesk CLI."""
+    args = build_parser().parse_args(argv)
+    return args.handler(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
