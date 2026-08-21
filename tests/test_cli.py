@@ -57,6 +57,17 @@ class TestCLIList(unittest.TestCase):
         self.assertIn("deprecated", result.stderr)
     
 
+    def test_prio_alias_still_filters(self):
+        result = self.run_cli("list", "--prio", "high")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("INC-104", result.stdout)
+        self.assertNotIn("INC-101", result.stdout)
+        
+    def test_prio_alias_warns_about_deprecation(self):
+        result = self.run_cli("list", "--prio", "high")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("deprecated", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
