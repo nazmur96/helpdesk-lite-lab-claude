@@ -4,6 +4,8 @@ import argparse
 
 from helpdesk.service import load_tickets
 
+PRIORITIES = ("low", "medium", "high")
+
 
 def format_ticket(ticket):
     """Render a single ticket as one line of CLI output."""
@@ -11,8 +13,11 @@ def format_ticket(ticket):
 
 
 def cmd_list(args):
-    """Print every ticket."""
-    for ticket in load_tickets():
+    """Print tickets, optionally narrowed to a single priority."""
+    tickets = load_tickets()
+    if args.priority:
+        tickets = [t for t in tickets if t.priority == args.priority]
+    for ticket in tickets:
         print(format_ticket(ticket))
     return 0
 
@@ -22,6 +27,11 @@ def build_parser():
     subcommands = parser.add_subparsers(dest="command", required=True)
 
     list_parser = subcommands.add_parser("list", help="List support tickets")
+    list_parser.add_argument(
+        "--priority",
+        choices=PRIORITIES,
+        help="Show only tickets with this priority",
+    )
     list_parser.set_defaults(handler=cmd_list)
 
     return parser
