@@ -1,10 +1,22 @@
 """Command-line interface for HelpDesk Lite."""
 
 import argparse
+import sys
 
 from helpdesk.service import load_tickets
 
 PRIORITIES = ("low", "medium", "high")
+
+
+class DeprecatedAlias(argparse.Action):
+    """Store a value and warn that the flag it arrived on is deprecated."""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        print(
+            f"warning: {option_string} is deprecated, use --priority instead",
+            file=sys.stderr,
+        )
+        setattr(namespace, self.dest, values)
 
 
 def format_ticket(ticket):
@@ -37,7 +49,7 @@ def build_parser():
         dest="priority",
         choices=PRIORITIES,
         help="Deprecated alias for --priority",
-        deprecated=True,
+        action=DeprecatedAlias,
     )
     list_parser.set_defaults(handler=cmd_list)
 
