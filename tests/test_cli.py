@@ -50,6 +50,12 @@ class TestCLIList(unittest.TestCase):
         result = self.run_cli("list", "--priority", "urgent")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("invalid choice", result.stderr)
+        
+    def test_prio_alias_warns_about_deprecation(self):
+        result = self.run_cli("list", "--prio", "high")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("deprecated", result.stderr)
+    
 
 
 if __name__ == "__main__":
