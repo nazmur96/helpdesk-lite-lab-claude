@@ -32,6 +32,13 @@ def build_parser():
         choices=PRIORITIES,
         help="Show only tickets with this priority",
     )
+    list_parser.add_argument(
+        "--prio",
+        dest="priority",
+        choices=PRIORITIES,
+        help="Deprecated alias for --priority",
+        deprecated=True,
+    )
     list_parser.set_defaults(handler=cmd_list)
 
     return parser

@@ -51,6 +51,12 @@ class TestCLIList(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("invalid choice", result.stderr)
 
+    def test_prio_alias_still_filters(self):
+        result = self.run_cli("list", "--prio", "high")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("INC-104", result.stdout)
+        self.assertNotIn("INC-101", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
