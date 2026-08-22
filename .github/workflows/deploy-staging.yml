@@ -1,0 +1,21 @@
+name: Deploy to staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Deploy
+        run: |
+          echo "Deploying $GITHUB_SHA to staging"
+          echo "Triggered by $GITHUB_ACTOR on $GITHUB_REF_NAME"
+
