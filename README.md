@@ -27,6 +27,12 @@ INC-104  HIGH  Payment page returns an error
 INC-109  HIGH  Customer cannot reset password
 ```
 
+
+
+```
+--prio` is accepted as a deprecated alias and prints a warning to stderr.
+```
+
 ## Project structure
 
 ```
