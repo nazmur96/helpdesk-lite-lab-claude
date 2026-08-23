@@ -30,7 +30,7 @@ def cmd_list(args):
     if args.priority:
         tickets = [t for t in tickets if t.priority == args.priority]
     if args.owner:
-        tickets = [t for t in tickets if t.ownr == args.owner]
+        tickets = [t for t in tickets if t.owner == args.owner]
     for ticket in tickets:
         print(format_ticket(ticket))
     return 0
