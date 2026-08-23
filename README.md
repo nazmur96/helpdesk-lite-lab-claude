@@ -51,3 +51,5 @@ helpdesk-lite-lab/
 
 This project follows test-driven development: a failing test comes first, then
 the smallest implementation that makes it pass.
+
+_Release ladder verified: develop -> staging -> main._
