@@ -62,5 +62,12 @@ class TestCLIList(unittest.TestCase):
         self.assertIn("deprecated", result.stderr)
 
 
+    def test_list_filters_by_owner(self):
+        result = self.run_cli("list", "--owner", "alex")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("INC-101", result.stdout)
+        self.assertNotIn("INC-102", result.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()
