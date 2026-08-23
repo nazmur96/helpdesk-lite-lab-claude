@@ -25,10 +25,12 @@ def format_ticket(ticket):
 
 
 def cmd_list(args):
-    """Print tickets, optionally narrowed to a single priority."""
+    """Print tickets, optionally narrowed to a single priority or owner."""
     tickets = load_tickets()
     if args.priority:
         tickets = [t for t in tickets if t.priority == args.priority]
+    if args.owner:
+        tickets = [t for t in tickets if t.ownr == args.owner]
     for ticket in tickets:
         print(format_ticket(ticket))
     return 0
@@ -50,6 +52,10 @@ def build_parser():
         choices=PRIORITIES,
         help="Deprecated alias for --priority",
         action=DeprecatedAlias,
+    )
+    list_parser.add_argument(
+        "--owner",
+        help="Show only tickets assigned to this owner",
     )
     list_parser.set_defaults(handler=cmd_list)
 
